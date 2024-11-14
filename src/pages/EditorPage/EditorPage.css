@@ -1,0 +1,74 @@
+.mainWrap {
+    display: grid;
+    grid-template-columns: 230px 1fr;
+    height: 100vh;
+}
+
+.btn {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease-in-out;
+    outline: none;
+}
+
+.aside {
+    background-color: #1c1e29;
+    padding: 16px;
+    color: '#fff';
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #424242;
+}
+
+.asideInner {
+    flex: 1;
+}
+
+.clientslist {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.client {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    font-weight: bold;
+}
+
+.username {
+    width: 14px;
+    margin-top: 8px;
+}
+
+.logo {
+    border-bottom: 1px solid #424242;
+    display: flex;
+    justify-content: center;
+}
+
+.copybtn,
+.leavebtn {
+    background: #4aee88;
+    font-weight: bold;
+    font-size: 16px;
+    color: #1c1e29;
+    margin-bottom: 3px;
+}
+
+.copybtn:hover,
+.leavebtn:hover {
+    background: #2b824c;
+}
+
+.cm-editor {
+    height: 100vh;
+    font-size: 20px;
+    line-height: 1.6;
+    /* padding-top: 20px; */
+}
