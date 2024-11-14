@@ -1,5 +1,5 @@
 import express from 'express';
-import https from 'https';
+import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import { ACTIONS } from './action.js';
@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const server = https.createServer(app);
+const server = http.createServer(app);
 
 const io = new Server(server);
 app.use(
