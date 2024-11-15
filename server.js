@@ -31,18 +31,24 @@ const getAllconnectedClients = (roomId) => {
   return [...io.sockets.adapter.rooms.get(roomId)].map((socketId) => {
     return {
       socketId,
-      username: userSocketMap.get(socketId),
+      username: userSocketMap.get(socketId).userName,
     };
   });
 };
 
 io.on('connection', (socket) => {
   socket.on(ACTIONS.JOIN, ({ roomId, userName, editable }) => {
-    userSocketMap.set(socket.id, userName);
+    userSocketMap.set(socket.id, { userName, isCreater: false });
 
-    socket.join(roomId);
+    if (!io.sockets.adapter.rooms.has(roomId)) {
+      socket.join(roomId);
+      userSocketMap.set(socket.id, { userName, isCreater: true });
+    } else {
+      socket.join(roomId);
+    }
 
     const clients = getAllconnectedClients(roomId);
+    console.log('clients', clients);
 
     // Broadcast editable state to all clients in the room
     clients.forEach(({ socketId }) => {
@@ -51,6 +57,7 @@ io.on('connection', (socket) => {
         username: userName,
         socketId: socket.id,
         editable,
+        isCreater: userSocketMap.get(socketId).isCreater,
       });
     });
   });

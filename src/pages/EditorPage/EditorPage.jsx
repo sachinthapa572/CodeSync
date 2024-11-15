@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 function EditorPage() {
   const [clients, setClients] = useState([]);
   const [editable, setEditable] = useState(true);
+  const [iscreater, setIscreater] = useState(false);
   const socketRef = useRef(null);
   const codeRef = useRef(null);
   const location = useLocation();
@@ -59,19 +60,32 @@ function EditorPage() {
         editable,
       });
 
-      socketRef.current.on(ACTIONS.JOINED, ({ clients, username, socketId, editable }) => {
-        setClients(clients);
-        setEditable(editable);
-        if (username !== userName) {
-          toast.success(`${username} joined the room`);
+      socketRef.current.on(
+        ACTIONS.JOINED,
+        ({ clients, username, socketId, editable, isCreater }) => {
+          setClients(clients);
+          setEditable(editable);
+          // Store the isCreater value in localStorage
+          const isLSCreater = localStorage.getItem('isCreater');
+          if (isLSCreater === null) {
+            localStorage.setItem('isCreater', isCreater);
+            setIscreater(isCreater);
+          } else {
+            setIscreater(JSON.parse(isLSCreater));
+          }
+
+          console.log('isCreater', isCreater);
+          if (username !== userName) {
+            toast.success(`${username} joined the room`);
+          }
+          if (codeRef.current) {
+            socketRef.current.emit(ACTIONS.SYNC_CODE, {
+              code: codeRef.current,
+              socketId,
+            });
+          }
         }
-        if (codeRef.current) {
-          socketRef.current.emit(ACTIONS.SYNC_CODE, {
-            code: codeRef.current,
-            socketId,
-          });
-        }
-      });
+      );
 
       socketRef.current.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
         toast.success(`${username} left the room`);
@@ -126,7 +140,18 @@ function EditorPage() {
             ))}
           </div>
         </div>
-        <button className={`btn togglebtn copybtn`} onClick={toggleEditable}>
+
+        {/* {iscreater && (
+          <button className={`btn togglebtn copybtn`} onClick={toggleEditable}>
+            {editable ? 'Set to Read-Only' : 'Set to Editable'}
+          </button>
+        )} */}
+
+        <button
+          className={`${!iscreater ? 'disablecreater' : ''} btn togglebtn copybtn`}
+          onClick={toggleEditable}
+          disabled={!iscreater}
+        >
           {editable ? 'Set to Read-Only' : 'Set to Editable'}
         </button>
 
