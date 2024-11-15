@@ -16,7 +16,7 @@ function EditorPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
-  const userName = location.state?.userName || `Guest`;
+  const userName = location.state?.userName || `Guest${Math.floor(Math.random() * 1000)}`;
 
   const handleErrors = (err) => {
     toast.error('Connection failed, please try again');
@@ -173,5 +173,4 @@ function EditorPage() {
     </div>
   );
 }
-
 export default EditorPage;
