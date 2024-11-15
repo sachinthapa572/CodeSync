@@ -70,16 +70,57 @@
     height: 100vh;
     font-size: 20px;
     line-height: 1.6;
-    /* padding-top: 20px; */
 }
 
+/*! custom toolpit css  */
 .disablecreater {
+    position: relative;
     background-color: #ccc;
     color: #666;
     cursor: not-allowed;
     opacity: 0.6;
 }
 
-.disablecreater:hover {
-    background-color: #ccc;
+/* Custom Tooltip */
+.disablecreater:hover::after {
+    content: 'You are not the room creator';
+    /* Tooltip text */
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 12px;
+    z-index: 10;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Small arrow below the tooltip */
+.disablecreater:hover::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent;
+    z-index: 10;
+}
+
+/* Hide tooltip by default */
+.disablecreater::after,
+.disablecreater::before {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.disablecreater:hover::after,
+.disablecreater:hover::before {
+    opacity: 1;
 }
