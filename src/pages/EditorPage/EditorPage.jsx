@@ -16,7 +16,7 @@ function EditorPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
-  const userName = location.state?.userName || 'Guest';
+  const userName = location.state?.userName || `Guest`;
 
   const handleErrors = (err) => {
     toast.error('Connection failed, please try again');
@@ -66,9 +66,9 @@ function EditorPage() {
           setClients(clients);
           setEditable(editable);
           // Store the isCreater value in localStorage
-          const isLSCreater = localStorage.getItem('isCreater');
+          const isLSCreater = sessionStorage.getItem('isCreater');
           if (isLSCreater === null) {
-            localStorage.setItem('isCreater', isCreater);
+            sessionStorage.setItem('isCreater', isCreater);
             setIscreater(isCreater);
           } else {
             setIscreater(JSON.parse(isLSCreater));
@@ -140,13 +140,6 @@ function EditorPage() {
             ))}
           </div>
         </div>
-
-        {/* {iscreater && (
-          <button className={`btn togglebtn copybtn`} onClick={toggleEditable}>
-            {editable ? 'Set to Read-Only' : 'Set to Editable'}
-          </button>
-        )} */}
-
         <button
           className={`${!iscreater ? 'disablecreater' : ''} btn togglebtn copybtn`}
           onClick={toggleEditable}

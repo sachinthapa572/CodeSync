@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
     rooms.forEach((roomId) => {
       socket.in(roomId).emit(ACTIONS.DISCONNECTED, {
         socketId: socket.id,
-        username: userSocketMap.get(socket.id),
+        username: userSocketMap.get(socket.id).userName,
       });
     });
     userSocketMap.delete(socket.id);
